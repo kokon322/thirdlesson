@@ -1,15 +1,10 @@
 <template>
   <div>
   <h1>ToDoList</h1>  
-    <ul>
-      <li v-for="(item, i) in toDoList" :key="i">
-        {{item}}------- {{i}}<button @click='submitData(item , i )'>SubmitData</button>
-        
-        <button @click='deleteData(i)'>DeleteData</button>
-      </li>
-          
-    </ul>
-     
+  <input type="text" v-model="scaner.scan">
+  <button @click="addToData">addToData</button>
+
+
   </div>
 </template>
 
@@ -21,27 +16,19 @@ export default {
 
   data(){
     return{
-         toDoList: [
-         'Прокинутися о 8:00',
-         'Прийняти душ',
-         'Почистити зуби',
-         'Одягнутись',
-         'Піти на роботу'],
+    scaner: {scan:''},
+    toDoList: [],
          
     }
   },
 
   methods:{
-    submitData(item , i ){
-    this.$http.post('https://lesson----vue.firebaseio.com/todo.json', {item, id: i})
-   },
-    deleteData(i){
-      this.$http.get(`https://lesson----vue.firebaseio.com/todo/${i}.json`, i)
-      .then((res)=>{
-        console.log(res)
-      }) 
-    }
-    }
+  addToData(){
+    this.$http.post('https://lesson----vue.firebaseio.com/todo.json', this.scaner)
+    
+  }
+    
+  }
 
  
   
