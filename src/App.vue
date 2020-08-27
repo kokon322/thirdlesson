@@ -1,28 +1,53 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+  <h1>ToDoList</h1>  
+    <ul>
+      <li v-for="(item, i) in toDoList" :key="i">
+        {{item}}------- {{i}}<button @click='submitData(item , i )'>SubmitData</button>
+        
+        <button @click='deleteData(i)'>DeleteData</button>
+      </li>
+          
+    </ul>
+     
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+
+  data(){
+    return{
+         toDoList: [
+         'Прокинутися о 8:00',
+         'Прийняти душ',
+         'Почистити зуби',
+         'Одягнутись',
+         'Піти на роботу'],
+         
+    }
+  },
+
+  methods:{
+    submitData(item , i ){
+    this.$http.post('https://lesson----vue.firebaseio.com/todo.json', {item, id: i})
+   },
+    deleteData(i){
+      this.$http.get(`https://lesson----vue.firebaseio.com/todo/${i}.json`, i)
+      .then((res)=>{
+        console.log(res)
+      }) 
+    }
+    }
+
+ 
+  
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
